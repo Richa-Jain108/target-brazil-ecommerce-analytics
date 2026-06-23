@@ -62,7 +62,7 @@ The objective was to leverage historical e-commerce transaction data to generate
 
 ### Dataset Source
 
-[Brazilian E-Commerce Dataset](https://drive.google.com/drive/folders/1TGEc66YKbD443nslRi1bWgVd238gJCnb)
+[Target E-Commerce Dataset](https://drive.google.com/drive/folders/1TGEc66YKbD443nslRi1bWgVd238gJCnb)
 
 ---
 
