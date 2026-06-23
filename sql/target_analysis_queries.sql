@@ -7,8 +7,7 @@ Data type of all columns in the customers table
 SELECT
     column_name,
     data_type
-FROM `target
-.INFORMATION_SCHEMA.COLUMNS`
+FROM `target.INFORMATION_SCHEMA.COLUMNS`
 WHERE table_name = 'customers';
 
 
@@ -20,8 +19,7 @@ Get the time range between which the orders were placed
 SELECT
     MIN(order_purchase_timestamp) AS first_order_placed,
     MAX(order_purchase_timestamp) AS last_order_placed
-FROM `target
-.orders`;
+FROM `target.orders`;
 
 
 /* ============================================================
@@ -33,8 +31,7 @@ the given period
 SELECT
     COUNT(DISTINCT c.customer_city) AS Cities_of_customer,
     COUNT(DISTINCT c.customer_state) AS States_of_customer
-FROM `target
-.customers` AS c;
+FROM `target.customers` AS c;
 
 
 /* ============================================================
@@ -46,8 +43,7 @@ between the first and last order dates
 SELECT
     COUNT(DISTINCT c.customer_city) AS Cities_of_customer,
     COUNT(DISTINCT c.customer_state) AS States_of_customer
-FROM `target
-.customers` AS c
+FROM `target.customers` AS c
 LEFT JOIN `target.orders` AS o
     ON c.customer_id = o.customer_id
 WHERE o.order_purchase_timestamp BETWEEN
@@ -63,8 +59,7 @@ States to focus on for acquiring new customers
 SELECT
     c.customer_state,
     COUNT(*) AS No_orders_placed_from_state
-FROM `target
-.customers` AS c
+FROM `target.customers` AS c
 GROUP BY 1
 ORDER BY 2 DESC;
 
@@ -78,8 +73,7 @@ SELECT
     EXTRACT(YEAR FROM order_purchase_timestamp) AS Year_,
     EXTRACT(MONTH FROM order_purchase_timestamp) AS Month_,
     COUNT(order_id) AS No_of_orders_placed
-FROM `target
-.orders`
+FROM `target.orders`
 GROUP BY 1,2
 ORDER BY 1,2;
 
@@ -93,8 +87,7 @@ the number of orders being placed?
 SELECT
     EXTRACT(MONTH FROM order_purchase_timestamp) AS Month_,
     COUNT(order_id) AS No_of_orders
-FROM `target
-.orders`
+FROM `target.orders`
 GROUP BY 1
 ORDER BY 1;
 
@@ -129,8 +122,7 @@ SELECT
 
     COUNT(order_id) AS total_orders_at_that_time
 
-FROM `target
-.orders`
+FROM `target.orders`
 GROUP BY 1
 ORDER BY COUNT
 (order_id) DESC;
@@ -146,8 +138,7 @@ SELECT
     EXTRACT(MONTH FROM o.order_purchase_timestamp) AS month_,
     c.customer_state,
     COUNT(order_id) AS no_of_orders
-FROM `target
-.orders` AS o
+FROM `target.orders` AS o
 LEFT JOIN `target.customers` AS c
     ON o.customer_id = c.customer_id
 GROUP BY 1,2,3
@@ -164,8 +155,7 @@ SELECT
     EXTRACT(MONTH FROM o.order_purchase_timestamp) AS month_,
     c.customer_state,
     COUNT(order_id) AS no_of_orders
-FROM `target
-.orders` AS o
+FROM `target.orders` AS o
 LEFT JOIN `target.customers` AS c
     ON o.customer_id = c.customer_id
 GROUP BY 1,2
@@ -180,8 +170,7 @@ How are the customers distributed across all the states?
 SELECT
     customer_state,
     COUNT(DISTINCT customer_id) AS customer_count
-FROM `target
-.customers`
+FROM `target.customers`
 GROUP BY 1
 ORDER BY 2 DESC;
 
@@ -219,8 +208,7 @@ FROM
             END
         ) AS cost_2018
 
-    FROM `target.orders
-` o
+    FROM `target.orders` o
     JOIN `target.payments` p
         ON o.order_id = p.order_id
 
@@ -245,8 +233,7 @@ SELECT
     ROUND(SUM(p.payment_value), 2) AS total_order_price,
     ROUND(AVG(p.payment_value), 2) AS average_order_price
 FROM `target.customers` AS c
-    LEFT JOIN `target      .orders
-` AS o
+    LEFT JOIN `target.orders` AS o
     ON c.customer_id = o.customer_id
 LEFT JOIN `target.payments` AS p
     ON o.order_id = p.order_id
@@ -265,8 +252,7 @@ SELECT
     ROUND(SUM(oi.freight_value), 2) AS total_freight,
     ROUND(AVG(oi.freight_value), 2) AS average_freight
 FROM `target.orders` o
-    JOIN `target      .customers
-` c
+    JOIN `target.customers` c
     ON o.customer_id = c.customer_id
 JOIN `target.order_items` oi
     ON o.order_id = oi.order_id
@@ -301,8 +287,7 @@ SELECT
         DAY
     ) AS diff_estimated_delivery
 
-FROM `target
-.orders`
+FROM `target.orders`
 ORDER BY 2;
 
 
@@ -324,8 +309,7 @@ FROM
     FROM `target.customers` AS c
     JOIN `target     .orders` AS o
             ON o.customer_id = c.customer_id
-    JOIN `target     .order_items
-` AS oi
+    JOIN `target.order_items` AS oi
             ON o.order_id = oi.order_id
         GROUP BY c.customer_state
         ORDER BY avg_freight_value ASC
@@ -341,8 +325,7 @@ FROM
 FROM `target.customers` AS c
     JOIN `target     .orders` AS o
             ON o.customer_id = c.customer_id
-    JOIN `target     .order_items
-` AS oi
+    JOIN `target.order_items` AS oi
             ON o.order_id = oi.order_id
         GROUP BY c.customer_state
         ORDER BY avg_freight_value DESC
@@ -395,8 +378,7 @@ FROM
         ) AS descending_ranking
 
     FROM `target.customers` AS c
-    JOIN `target     .orders
-` AS o
+    JOIN `target.orders` AS o
         ON o.customer_id = c.customer_id
 
     GROUP BY state
@@ -453,8 +435,7 @@ SELECT
         )
     ) AS delivery_time_difference
 
-FROM `target
-.customers` AS c
+FROM `target.customers` AS c
 JOIN `target.orders` AS o
     ON o.customer_id = c.customer_id
 
@@ -475,8 +456,7 @@ SELECT
     EXTRACT(MONTH FROM o.order_purchase_timestamp) AS Month_,
     p.payment_type,
     COUNT(DISTINCT p.order_id) AS no_of_orders
-FROM `target
-.orders` AS o
+FROM `target.orders` AS o
 LEFT JOIN `target.payments` AS p
     ON o.order_id = p.order_id
 GROUP BY Month_, payment_type
@@ -495,8 +475,7 @@ SELECT
     p.payment_type,
     COUNT(DISTINCT p.order_id) AS no_of_orders
 FROM `target.orders` AS o
-    LEFT JOIN `target    .payments
-` AS p
+    LEFT JOIN `target.payments` AS p
     ON o.order_id = p.order_id
 GROUP BY 1, 2, 3
 ORDER BY 1, 2 ASC, 4 DESC;
@@ -510,8 +489,7 @@ payment installments that have been paid
 
 SELECT
     COUNT(DISTINCT order_id) AS no_of_orders
-FROM `target
-.payments`
+FROM `target.payments`
 WHERE payment_installments >= 1;
 
 
@@ -522,7 +500,6 @@ Exclude orders where payment value is zero
 
 SELECT
     COUNT(DISTINCT order_id) AS no_of_orders
-FROM `target
-.payments`
+FROM `target.payments`
 WHERE payment_installments >= 1
   AND payment_value > 0;
