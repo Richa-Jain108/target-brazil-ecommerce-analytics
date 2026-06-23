@@ -1,9 +1,3 @@
----
-title: Dataset Documentation
-created: '2026-06-23T18:29:22.692Z'
-modified: '2026-06-23T18:31:37.853Z'
----
-
 # Dataset Documentation
 
 ## Dataset Source
